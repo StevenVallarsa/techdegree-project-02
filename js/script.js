@@ -9,6 +9,45 @@ For assistance:
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
 
+/**
+ * Add Search Bar
+ */
+const searchBar = `
+  <form id="search-form">
+    <label for="search" class="student-search">
+      <span>Search by name</span>
+      <input id="search" placeholder="Search by name...">
+      <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+    </label>
+  </form>`;
+const header = document.querySelector("header");
+header.insertAdjacentHTML("beforeend", searchBar);
+
+const searchForm = document.querySelector("#search-form");
+const input = document.querySelector("#search");
+const searchButton = document.querySelector("button");
+
+input.addEventListener("keydown", e => {
+  const searchTerm = e.target.value.toLowerCase();
+  const results = data.filter(item => {
+    const name = `${item.name.first.toLowerCase()} ${item.name.last.toLowerCase()}`;
+    return name.includes(searchTerm);
+  });
+
+  showPage(results, 1);
+  addPagination(results);
+});
+
+// searchButton.addEventListener("click", e => {
+//   const searchTerm = input.value.toLowerCase();
+//   const results = data.filter(item => {
+//     const name = `${item.name.first.toLowerCase()} ${item.name.last.toLowerCase()}`;
+//     return name.includes(searchTerm);
+//   });
+//   showPage(results, 1);
+//   addPagination(results);
+// });
+
 /*
 Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
@@ -21,24 +60,28 @@ function showPage(list, page) {
   const ul = document.querySelector(".student-list");
   ul.innerHTML = ""; // empty UL area of existing items
 
-  // Loop through list and only create cards for items between
-  // startIndex and endIndex
-  for (let i = 0; i < list.length; i++) {
-    if (i >= startIndex && i < endIndex) {
-      // Create card
-      let card = `
+  if (list.length === 0) {
+    ul.innerHTML = "<h1>No results found</h1>";
+  } else {
+    // Loop through list and only create cards for items between
+    // startIndex and endIndex
+    for (let i = 0; i < list.length; i++) {
+      if (i >= startIndex && i < endIndex) {
+        // Create card
+        let card = `
         <li class="student-item cf">
-          <div class="student-details">
-            <img class="avatar" src="${list[i].picture.large}" alt="Profile Picture">
-            <h3>${list[i].name.first} ${list[i].name.last}</h3>
-            <span class="email">${list[i].email}</span>
-          </div>
-          <div class="joined-details">
-            <span class="date">Joined ${list[i].registered.date}</span>
-          </div>
+        <div class="student-details">
+        <img class="avatar" src="${list[i].picture.large}" alt="Profile Picture">
+        <h3>${list[i].name.first} ${list[i].name.last}</h3>
+        <span class="email">${list[i].email}</span>
+        </div>
+        <div class="joined-details">
+        <span class="date">Joined ${list[i].registered.date}</span>
+        </div>
         </li>`;
-      // Insert card into UL area on page
-      ul.insertAdjacentHTML("beforeend", card);
+        // Insert card into UL area on page
+        ul.insertAdjacentHTML("beforeend", card);
+      }
     }
   }
 }
