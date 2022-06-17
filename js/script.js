@@ -14,15 +14,18 @@ Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
 */
 function showPage(list, page) {
-  const itemsPerPage = 9;
-  let startIndex = page * itemsPerPage - itemsPerPage;
-  let endIndex = page * itemsPerPage;
+  const cardsPerPage = 9;
+  const startIndex = page * cardsPerPage - cardsPerPage;
+  const endIndex = page * cardsPerPage;
 
   const ul = document.querySelector(".student-list");
   ul.innerHTML = ""; // empty UL area of existing items
 
+  // Loop through list and only create cards for items between
+  // startIndex and endIndex
   for (let i = 0; i < list.length; i++) {
     if (i >= startIndex && i < endIndex) {
+      // Create card
       let card = `
         <li class="student-item cf">
           <div class="student-details">
@@ -31,9 +34,10 @@ function showPage(list, page) {
             <span class="email">${list[i].email}</span>
           </div>
           <div class="joined-details">
-            <span class="date">${list[i].registered.date}</span>
+            <span class="date">Joined ${list[i].registered.date}</span>
           </div>
         </li>`;
+      // Insert card into UL area on page
       ul.insertAdjacentHTML("beforeend", card);
     }
   }
@@ -43,9 +47,46 @@ function showPage(list, page) {
 Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
 */
+function addPagination(list) {
+  const cardsPerPage = 9;
+  const ul = document.querySelector(".link-list");
+  ul.innerHTML = ""; // empty UL area of existing items
+
+  // Create and insert number buttons
+  for (let i = 0; i < list.length / cardsPerPage; i++) {
+    const button = `
+     <li>
+        <button type="button">${i + 1}</button>
+     </li>
+    `;
+    ul.insertAdjacentHTML("beforeend", button);
+  }
+
+  // Make first number button "active"
+  ul.firstElementChild.firstElementChild.className = "active";
+
+  // Handle button click events
+  ul.addEventListener("click", e => {
+    if (e.target.tagName === "BUTTON") {
+      // If "button" clicked make clicked button active
+      // (while looping to find clicked button, remove "active" class)
+      const pageButtons = Array.from(document.querySelectorAll(".link-list li"));
+      pageButtons.forEach(button => {
+        button.firstElementChild.className = "";
+        if (e.target.textContent === button.firstElementChild.textContent) {
+          button.firstElementChild.className = "active";
+        }
+      });
+
+      // Display "showPage" with new page number
+      showPage(data, e.target.textContent);
+    }
+  });
+}
 
 // Call functions
 showPage(data, 1);
+addPagination(data);
 
 /*
 {
