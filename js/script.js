@@ -1,6 +1,8 @@
 /*
 Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
+
+Steven Vallarsa
 */
 
 /*
@@ -40,7 +42,7 @@ input.addEventListener("keyup", e => {
   searchResults(searchTerm);
 });
 
-// Button push search results
+// Button click search results
 searchButton.addEventListener("click", () => {
   const searchTerm = input.value.toLowerCase();
   input.value = "";
@@ -63,7 +65,7 @@ function showPage(list, page) {
     ul.innerHTML = "<h1>No results found</h1>";
   } else {
     // Loop through list and only create cards for items between
-    // startIndex and endIndex
+    // startIndex and endIndex for inputted list
     for (let i = 0; i < list.length; i++) {
       if (i >= startIndex && i < endIndex) {
         // Create card
@@ -108,11 +110,12 @@ function addPagination(list) {
     // Make first number button "active"
     ul.firstElementChild.firstElementChild.className = "active";
 
-    // Handle button click events
+    // Handle button click events:
+    //   If "button" element was clicked, iterate through all the buttons
+    //   and remove all classes on each button, adding "active" class to
+    //   the one button that was clicked on
     ul.addEventListener("click", e => {
       if (e.target.tagName === "BUTTON") {
-        // If "button" clicked make clicked button active
-        // (while looping to find clicked button, remove "active" class)
         const pageButtons = Array.from(document.querySelectorAll(".link-list li"));
         pageButtons.forEach(button => {
           button.firstElementChild.className = "";
@@ -128,26 +131,6 @@ function addPagination(list) {
   }
 }
 
-// Call functions
+// Call functions first time script is run
 showPage(data, 1);
 addPagination(data);
-
-/*
-{
-    name: {
-      title: "Miss",
-      first: "Ethel",
-      last: "Dean",
-    },
-    email: "ethel.dean@example.com",
-    registered: {
-      date: "12-15-2005",
-      age: 15,
-    },
-    picture: {
-      large: "https://randomuser.me/api/portraits/women/25.jpg",
-      medium: "https://randomuser.me/api/portraits/med/women/25.jpg",
-      thumbnail: "https://randomuser.me/api/portraits/thumb/women/25.jpg",
-    },
-  },
-*/
