@@ -56,7 +56,6 @@ Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
 */
 function showPage(list, page) {
-  console.log(list.length);
   const startIndex = page * cardsPerPage - cardsPerPage;
   const endIndex = page * cardsPerPage;
 
