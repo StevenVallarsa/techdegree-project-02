@@ -11,6 +11,8 @@ For assistance:
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
 
+const cardsPerPage = 9;
+
 /**
  * Search Bar
  */
@@ -54,7 +56,7 @@ Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
 */
 function showPage(list, page) {
-  const cardsPerPage = 9;
+  console.log(list.length);
   const startIndex = page * cardsPerPage - cardsPerPage;
   const endIndex = page * cardsPerPage;
 
@@ -92,12 +94,12 @@ Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
 */
 function addPagination(list) {
-  const cardsPerPage = 9;
   const ul = document.querySelector(".link-list");
   ul.innerHTML = ""; // empty UL area of existing items
 
   if (list.length !== 0) {
     // Create and insert number buttons
+
     for (let i = 0; i < list.length / cardsPerPage; i++) {
       const button = `
       <li>
@@ -125,7 +127,7 @@ function addPagination(list) {
         });
 
         // Display "showPage" with new page number
-        showPage(data, e.target.textContent);
+        showPage(list, e.target.textContent);
       }
     });
   }
